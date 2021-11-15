@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "apollo-boost": "^0.4.9",
+    "create-react-app": "^4.0.3",
     "graphql": "^16.0.1",
     "react": "^17.0.2",
     "react-apollo": "^3.1.5",
@@ -17,7 +18,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "build:style": "tailwind build -i src/index.css -o src/styles/tailwind.css",
+    "build:style": "tailwind build -i src/index.css -o public/styles.css",
     "start": "yarn build:style && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -1,22 +1,22 @@
-import React from "react";
+import React, { Suspense, useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import CharacterAvatar from "./CharacterAvatar";
+import { CharactersList } from "../store";
 // import CreateCharacter from './CreateCharacter';
 
-const GET_CHARACTERS = gql`{
+const GET_CHARACTERS = gql`
   {
     characters {
-        id
-        name
-        homeplanet
-        weapon
-      }
-  }  
-}
+      id
+      name
+      homeplanet
+      weapon
+    }
+  }
 `;
 
-const characters = ({ selectCharacter }: { selectCharacter: any }) => {
+const Characters = (/* { selectCharacter }: { selectCharacter: any } */) => {
   const { loading, error, data } = useQuery(GET_CHARACTERS);
 
   if (loading) {
@@ -27,18 +27,29 @@ const characters = ({ selectCharacter }: { selectCharacter: any }) => {
   }
 
   return (
-    <div className="flex flex-wrap items-cetner pb-16">
-      {data.characters.map((character: any) => {
-        <div
-          key={character.id}
-          className="lg:w-1/3 w-full p-4 text-center inline"
-          onClick={selectCharacter.bind(this, character)}
-        >
-          <CharacterAvatar character={character} />
-        </div>;
-      })}
-    </div>
+    <Suspense fallback={loading}>
+      <div className="mx-2">
+        <div className="flex flex-wrap pb-16 mx-4">
+          {data.characters.map((character: any) => (
+            <div
+              key={character.id}
+              className="lg:w-1/4 sm:w-full inline card p-4 m-16"
+              //onClick={setCharacter(character)}
+            >
+              <div className="p-10">
+                <p>ID: {character.id}</p>
+                <p>Name: {character.name}</p>
+                <p>Homeplanet: {character.homeplanet}</p>
+                <p>Weapon: {character.weapon}</p>
+              </div>
+
+              <CharacterAvatar character={character} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </Suspense>
   );
 };
 
-//37:07
+export default Characters;
